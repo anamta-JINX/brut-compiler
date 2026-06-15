@@ -1,0 +1,5 @@
+show("Broken repeat test")
+
+repeat 3 times {
+    show("This should throw an error");
+};

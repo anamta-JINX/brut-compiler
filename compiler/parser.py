@@ -11,6 +11,7 @@ from compiler.ast_nodes import (
     IfStatement,
     Literal,
     Program,
+    RepeatStatement,
     ShowStatement,
     Statement,
     UnaryExpression,
@@ -76,6 +77,9 @@ class Parser:
 
         if self.match(TokenType.WHILE):
             return self.while_statement()
+
+        if self.match(TokenType.REPEAT):
+            return self.repeat_statement()
 
         if self.check(TokenType.IDENTIFIER) and self.check_next(TokenType.EQUAL):
             return self.assignment_statement()
@@ -160,6 +164,26 @@ class Parser:
 
         return WhileStatement(
             condition=condition,
+            body=body,
+        )
+
+    def repeat_statement(self) -> Statement:
+        count = self.expression()
+
+        self.consume(
+            TokenType.TIMES,
+            "Expected `times` after repeat count. Example: repeat 5 times { show(\"hi\"); };",
+        )
+
+        self.consume(TokenType.LEFT_BRACE, "Expected `{` after repeat times.")
+
+        body = self.block_statements()
+
+        self.consume(TokenType.RIGHT_BRACE, "Expected `}` after repeat block.")
+        self.consume(TokenType.SEMICOLON, "Expected `;` after repeat block.")
+
+        return RepeatStatement(
+            count=count,
             body=body,
         )
 

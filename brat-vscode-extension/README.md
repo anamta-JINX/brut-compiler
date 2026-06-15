@@ -1,8 +1,26 @@
-# BRUT Compiler
+<div align="center">
+  <img src="brat-vscode-extension/logo/blogo.png" alt="BRAT Logo" width="160"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="brat-vscode-extension/logo/clogo.png" alt="BRUT Logo" width="160"/>
+</div>
+
+<h1 align="center">BRUT Compiler</h1>
+
+<p align="center">
+  A custom compiler and VS Code extension for the BRAT programming language.
+</p>
+
+<p align="center">
+  <b>BRAT</b> = the language you write &nbsp; | &nbsp; <b>BRUT</b> = the compiler that runs it
+</p>
+
+---
 
 **BRUT Compiler** is a Visual Studio Code extension for writing, checking, and running **BRAT** `.brt` files directly inside VS Code.
 
 BRAT is an English-like beginner-friendly programming language designed to feel simple, readable, and fun while still supporting real programming concepts like variables, input, conditions, loops, arithmetic, and logic.
+
+BRAT is not meant to feel boring or robotic. It is built with personality: clean syntax, readable logic, easy loops, and funny GenZ-style compiler error messages that still explain the real issue clearly.
 
 ---
 
@@ -60,6 +78,10 @@ This extension adds BRAT support to VS Code.
 * Bundled BRUT compiler runtime
 * Terminal-based execution for interactive programs
 * Support for user input through `ask(...)`
+* Support for `while` loops
+* Support for beginner-friendly `repeat ... times` loops
+* Sassy GenZ-style BRAT error messages
+* Helpful error reports with line number, column number, error code, issue, and fix suggestion
 
 ---
 
@@ -127,6 +149,7 @@ Create or open a BRAT file:
 calculator.brt
 main_test.brt
 hello.brt
+repeat_test.brt
 ```
 
 When the file opens, VS Code should detect it as:
@@ -487,9 +510,90 @@ Output:
 5
 ```
 
+Use `while` when you want the loop to keep running until a condition becomes false.
+
 ---
 
-# 10. Assignments
+# 10. Repeat Loops
+
+Use `repeat ... times` when you want a loop that is easy to read.
+
+This is one of the main reasons BRAT exists: loops should feel understandable.
+
+```brat
+repeat 3 times {
+    show("BRAT repeat is working");
+};
+```
+
+Output:
+
+```text
+BRAT repeat is working
+BRAT repeat is working
+BRAT repeat is working
+```
+
+You can also use a variable as the repeat count.
+
+```brat
+ask("How many times should BRAT repeat") -> repeatCount;
+
+repeat repeatCount times {
+    show("This line is repeating.");
+};
+```
+
+Important:
+
+```text
+times is a BRAT keyword.
+```
+
+So do not use `times` as a variable name.
+
+Do not write this:
+
+```brat
+ask("How many times") -> times;
+
+repeat times times {
+    show("hi");
+};
+```
+
+Use this instead:
+
+```brat
+ask("How many times") -> repeatCount;
+
+repeat repeatCount times {
+    show("hi");
+};
+```
+
+---
+
+# 11. Repeat Loop Example
+
+```brat
+show("========================================");
+show("        BRAT REPEAT LOOP TEST           ");
+show("========================================");
+
+ask("How many times should BRAT repeat") -> repeatCount;
+
+repeat repeatCount times {
+    show("🔥 BRAT repeat loop is working!");
+};
+
+show("");
+show("Done. Loops are finally readable.");
+```
+
+---
+
+# 12. Assignments
 
 Variables can be updated after creation.
 
@@ -513,15 +617,9 @@ show(total);
 
 ---
 
-# 11. Blocks
+# 13. Blocks
 
 BRAT uses curly braces for blocks.
-
-```brat
-{
-    show("Inside a block");
-};
-```
 
 Blocks are used in:
 
@@ -529,6 +627,7 @@ Blocks are used in:
 if
 else
 while
+repeat
 ```
 
 Example:
@@ -542,9 +641,17 @@ else {
 };
 ```
 
+Example with `repeat`:
+
+```brat
+repeat 2 times {
+    show("Inside repeat block");
+};
+```
+
 ---
 
-# 12. Semicolons
+# 14. Semicolons
 
 Most BRAT statements end with a semicolon.
 
@@ -572,9 +679,79 @@ else {
 };
 ```
 
+```brat
+repeat 3 times {
+    show("looping");
+};
+```
+
 ---
 
-# 13. Complete Example
+# 15. BRAT Error Handling
+
+BRAT’s error system is designed to be useful, but not boring.
+
+Instead of plain robotic compiler errors, BRAT gives readable error messages with personality.
+
+A BRAT error can include:
+
+```text
+Line number
+Column number
+Error code
+Actual issue
+Fix suggestion
+A funny BRAT-style roast
+```
+
+Example missing semicolon error:
+
+```text
+BRAT had a breakdown at line 3 💀
+You probably forgot a semicolon `;`, shawty.
+
+Error Code : BRAT_PARSE_003
+Line       : 3
+Column     : 1
+Issue      : Expected `;` after show/say statement.
+
+Fix it, fineshyt. BRAT is watching 👀
+```
+
+BRAT does not display every roast line every time. The messages are distributed across different types of errors so the compiler feels more natural.
+
+Possible BRAT-style error lines include:
+
+```text
+BRAT had a breakdown at line 4 💀
+it couldn't pass the vibe check
+Bestie, this is not giving.
+Bruh… didn’t expect such an error from you.
+This is not a bug. This is a cry for help.
+You probably forgot a semicolon `;`, shawty.
+Fix it, fineshyt. BRAT is watching 👀
+```
+
+Different error types can trigger different messages.
+
+| Error Type             | Example BRAT Message                          |
+| ---------------------- | --------------------------------------------- |
+| Missing semicolon      | `You probably forgot a semicolon ;, shawty.`  |
+| Missing syntax         | `This is not a bug. This is a cry for help.`  |
+| Parser error           | `Bestie, this is not giving.`                 |
+| Lexical error          | `it couldn't pass the vibe check`             |
+| Semantic error         | `Bruh… didn’t expect such an error from you.` |
+| General compiler error | `This is not a bug. This is a cry for help.`  |
+
+The goal is simple:
+
+```text
+Make errors funny, memorable, and still helpful.
+```
+
+---
+
+# 16. Complete Example
 
 ```brat
 show("========================================");
@@ -595,10 +772,17 @@ else {
     show("You failed.");
 };
 
+show("");
+show("Repeat celebration:");
+
+repeat 3 times {
+    show("BRAT is running with aura.");
+};
+
 mut count = 1;
 
 while count <= 3 {
-    show("Loop running...");
+    show("While loop running...");
     show(count);
     count = count + 1;
 };
@@ -606,7 +790,7 @@ while count <= 3 {
 
 ---
 
-# 14. Calculator Example
+# 17. Calculator Example
 
 ```brat
 show("========================================");
@@ -630,6 +814,7 @@ while running {
     show("5 -> Find remainder");
     show("6 -> Power calculation");
     show("7 -> BRAT vibe check");
+    show("8 -> Repeat loop demo");
     show("0 -> Exit");
     show("----------------------------------------");
 
@@ -717,9 +902,20 @@ while running {
                                     show("BRAT is clean, readable, and iconic.");
                                 }
                                 else {
-                                    show("");
-                                    show("Invalid choice.");
-                                    show("Please select a number from 0 to 7.");
+                                    if choice == 8 {
+                                        show("");
+                                        show("Repeat loop demo selected.");
+                                        ask("How many times should BRAT flex") -> repeatCount;
+
+                                        repeat repeatCount times {
+                                            show("BRAT repeat loop has aura.");
+                                        };
+                                    }
+                                    else {
+                                        show("");
+                                        show("Invalid choice.");
+                                        show("Please select a number from 0 to 8.");
+                                    };
                                 };
                             };
                         };
@@ -748,7 +944,9 @@ BRUT/
 │   └── main.py
 ├── examples/
 │   ├── calculator.brt
-│   └── main_test.brt
+│   ├── main_test.brt
+│   ├── repeat_test.brt
+│   └── error_repeat_test.brt
 ├── generated/
 ├── tests/
 └── brat-vscode-extension/
@@ -856,6 +1054,81 @@ This checks the BRAT file and reports whether it is valid.
 
 ---
 
+## Testing Repeat Syntax
+
+Create:
+
+```text
+examples/repeat_test.brt
+```
+
+Paste:
+
+```brat
+show("Repeat test");
+
+repeat 3 times {
+    show("BRAT repeat is working");
+};
+```
+
+Run:
+
+```powershell
+python -m compiler.main examples/repeat_test.brt --run
+```
+
+Expected output:
+
+```text
+Repeat test
+BRAT repeat is working
+BRAT repeat is working
+BRAT repeat is working
+```
+
+---
+
+## Testing BRAT Roast Errors
+
+Create:
+
+```text
+examples/error_repeat_test.brt
+```
+
+Paste this broken code:
+
+```brat
+show("Broken repeat test")
+
+repeat 3 times {
+    show("This should throw an error");
+};
+```
+
+Run:
+
+```powershell
+python -m compiler.main examples/error_repeat_test.brt --run
+```
+
+Expected output style:
+
+```text
+BRAT had a breakdown at line 3 💀
+You probably forgot a semicolon `;`, shawty.
+
+Error Code : BRAT_PARSE_003
+Line       : 3
+Column     : 1
+Issue      : Expected `;` after show/say statement.
+
+Fix it, fineshyt. BRAT is watching 👀
+```
+
+---
+
 ## Troubleshooting
 
 ### BRAT command does not appear
@@ -938,6 +1211,34 @@ Make sure this file exists:
 ```text
 logo/brat.png
 ```
+
+---
+
+### Repeat syntax throws an error
+
+Make sure your compiler files include repeat support:
+
+```text
+tokens.py
+ast_nodes.py
+parser.py
+codegen_python.py
+```
+
+Then rebuild the VSIX and reinstall it.
+
+---
+
+### VS Code still uses the old compiler
+
+If repeat works in terminal but not in the VS Code extension, rebuild and reinstall the VSIX:
+
+```powershell
+cd C:\Users\HP\Desktop\BRUT
+powershell -ExecutionPolicy Bypass -File .\build-vsix.ps1
+```
+
+Then install the new `.vsix` file again.
 
 ---
 

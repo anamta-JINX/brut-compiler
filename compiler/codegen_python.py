@@ -11,6 +11,7 @@ from compiler.ast_nodes import (
     IfStatement,
     Literal,
     Program,
+    RepeatStatement,
     ShowStatement,
     Statement,
     UnaryExpression,
@@ -23,10 +24,12 @@ class PythonCodeGenerator:
     def __init__(self):
         self.lines: list[str] = []
         self.indent_level = 0
+        self.repeat_counter = 0
 
     def generate(self, program: Program) -> str:
         self.lines = []
         self.indent_level = 0
+        self.repeat_counter = 0
 
         self.emit_runtime_helpers()
 
@@ -87,6 +90,10 @@ class PythonCodeGenerator:
             self.generate_while_statement(statement)
             return
 
+        if isinstance(statement, RepeatStatement):
+            self.generate_repeat_statement(statement)
+            return
+
         if isinstance(statement, ExpressionStatement):
             self.emit(self.generate_expression(statement.expression))
             return
@@ -139,6 +146,23 @@ class PythonCodeGenerator:
         condition = self.generate_expression(statement.condition)
 
         self.emit(f"while {condition}:")
+        self.indent_level += 1
+
+        if statement.body:
+            for body_statement in statement.body:
+                self.generate_statement(body_statement)
+        else:
+            self.emit("pass")
+
+        self.indent_level -= 1
+
+    def generate_repeat_statement(self, statement: RepeatStatement) -> None:
+        loop_var = f"_brat_repeat_{self.repeat_counter}"
+        self.repeat_counter += 1
+
+        count = self.generate_expression(statement.count)
+
+        self.emit(f"for {loop_var} in range(int({count})):")
         self.indent_level += 1
 
         if statement.body:

@@ -1,0 +1,44 @@
+show("========================================");
+show("        BRAT SCHOLARSHIP CHECKER        ");
+show("========================================");
+
+ask("Enter your marks out of 100") -> marks;
+ask("Enter your attendance percentage") -> attendance;
+ask("Enter your monthly family income") -> income;
+
+show("");
+show("Checking your eligibility...");
+
+if marks >= 80 and attendance >= 75 and income <= 50000 {
+    show("");
+    show("Congratulations!");
+    show("You are eligible for the scholarship.");
+}
+else {
+    show("");
+    show("Sorry, you are not eligible for the scholarship.");
+
+    if marks < 80 {
+        show("Reason: Marks should be 80 or above.");
+    }
+    else {
+        show("Marks requirement completed.");
+    };
+
+    if attendance < 75 {
+        show("Reason: Attendance should be 75% or above.");
+    }
+    else {
+        show("Attendance requirement completed.");
+    };
+
+    if income > 50000 {
+        show("Reason: Family income should be 50000 or below.");
+    }
+    else {
+        show("Income requirement completed.");
+    };
+};
+
+show("");
+show("BRUT Compiler finished checking your BRAT program.");

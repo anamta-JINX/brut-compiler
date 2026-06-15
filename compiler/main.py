@@ -17,17 +17,156 @@ def print_json(data: Any) -> None:
     print(json.dumps(data, indent=2, ensure_ascii=False))
 
 
-def error_payload(message: str, line: int = 1, column: int = 1) -> dict[str, Any]:
+def get_error_code(error: Exception) -> str:
+    if isinstance(error, LexicalError):
+        return "BRAT_LEX_002"
+
+    if isinstance(error, ParserError):
+        return "BRAT_PARSE_003"
+
+    if isinstance(error, SemanticError):
+        return "BRAT_SEMANTIC_004"
+
+    if isinstance(error, BratError):
+        return "BRAT_ERROR_005"
+
+    return "BRUT_COMPILER_001"
+
+
+def is_missing_syntax_error(message: str) -> bool:
+    lowered = message.lower()
+
+    syntax_words = [
+        "expected",
+        "semicolon",
+        "`;`",
+        "missing",
+        "after",
+        "before",
+        "syntax",
+        "brace",
+        "paren",
+        "parenthesis",
+        "}",
+        "{",
+        ")",
+        "(",
+    ]
+
+    return any(word in lowered for word in syntax_words)
+
+
+def is_semicolon_error(message: str) -> bool:
+    lowered = message.lower()
+    return "`;`" in lowered or "semicolon" in lowered
+
+
+def is_repeat_error(message: str) -> bool:
+    lowered = message.lower()
+    return "repeat" in lowered or "times" in lowered or "`times`" in lowered
+
+
+def get_fix_suggestion(message: str) -> str:
+    lowered = message.lower()
+
+    if "`;`" in lowered or "semicolon" in lowered:
+        return "You probably forgot a semicolon `;`, shawty."
+
+    if "`times`" in lowered or "times" in lowered:
+        return "Use repeat like this: repeat 5 times { show(\"hi\"); };"
+
+    if "`}`" in lowered or "right_brace" in lowered:
+        return "Close your block with `}` and then add `;` after the block."
+
+    if "`{`" in lowered or "left_brace" in lowered:
+        return "Open the block with `{` after your condition or loop statement."
+
+    if "`)`" in lowered or "right_paren" in lowered:
+        return "Close your brackets properly with `)`."
+
+    if "`(`" in lowered or "left_paren" in lowered:
+        return "Open your function call with `(`."
+
+    if "expected expression" in lowered:
+        return "BRAT expected a value, variable, number, string, or expression here."
+
+    return "Check the syntax near this line and fix the BRAT statement."
+
+
+def get_roast_line(error_code: str, message: str) -> str:
+    if is_semicolon_error(message):
+        return "You probably forgot a semicolon `;`, shawty."
+
+    if is_missing_syntax_error(message):
+        return "This is not a bug. This is a cry for help."
+
+    if error_code.startswith("BRAT_LEX"):
+        return "it couldn't pass the vibe check"
+
+    if error_code.startswith("BRAT_PARSE"):
+        return "Bestie, this is not giving."
+
+    if error_code.startswith("BRAT_SEMANTIC"):
+        return "Bruh… it couldn't pass the vibe check."
+
+    if error_code.startswith("BRUT_COMPILER"):
+        return "This is not a bug. This is a cry for help."
+
+    return "Fix it, fineshyt. BRAT is watching 👀"
+
+
+def error_payload(
+    message: str,
+    line: int = 1,
+    column: int = 1,
+    error_code: str = "BRAT_ERROR_001",
+) -> dict[str, Any]:
     return {
         "success": False,
+        "error_intro": f"BRAT had a breakdown at line {line} 💀",
+        "vibe": get_roast_line(error_code, message),
         "errors": [
             {
                 "line": line,
                 "column": column,
+                "code": error_code,
                 "message": message,
+                "fix": get_fix_suggestion(message),
             }
         ],
     }
+
+
+def print_brat_error(message: str, line: int, column: int, error_code: str) -> None:
+    roast_line = get_roast_line(error_code, message)
+    fix = get_fix_suggestion(message)
+
+    print(f"BRAT had a breakdown at line {line} 💀")
+    print(roast_line)
+    print()
+    print(f"Error Code : {error_code}")
+    print(f"Line       : {line}")
+    print(f"Column     : {column}")
+    print(f"Issue      : {message}")
+
+    if fix != roast_line:
+        print(f"Fix        : {fix}")
+
+    print()
+    print("Fix it, fineshyt. BRAT is watching 👀")
+
+
+def print_compiler_error(message: str) -> None:
+    print("BRAT had a breakdown at line 1 💀")
+    print("This is not a bug. This is a cry for help.")
+    print()
+    print("Error Code : BRUT_COMPILER_001")
+    print("Line       : 1")
+    print("Column     : 1")
+    print(f"Issue      : {message}")
+    print("Fix        : Check the compiler setup or the generated Python output.")
+    print()
+    print("Fix it, fineshyt. BRAT is watching 👀")
 
 
 def read_source(source_path: Path) -> str:
@@ -100,12 +239,23 @@ def main() -> None:
     source_path = Path(args.file)
 
     if not source_path.exists():
-        payload = error_payload(f"File not found: {source_path}")
+        message = f"File not found: {source_path}"
+        payload = error_payload(
+            message=message,
+            line=1,
+            column=1,
+            error_code="BRAT_FILE_404",
+        )
 
         if args.json:
             print_json(payload)
         else:
-            print(f"Error: File not found: {source_path}")
+            print_brat_error(
+                message=message,
+                line=1,
+                column=1,
+                error_code="BRAT_FILE_404",
+            )
 
         sys.exit(1)
 
@@ -162,26 +312,44 @@ def main() -> None:
         print("  --run")
 
     except (LexicalError, ParserError, SemanticError, BratError) as error:
+        message = getattr(error, "message", str(error))
+        line = getattr(error, "line", 1)
+        column = getattr(error, "column", 1)
+        error_code = get_error_code(error)
+
         payload = error_payload(
-            getattr(error, "message", str(error)),
-            getattr(error, "line", 1),
-            getattr(error, "column", 1),
+            message=message,
+            line=line,
+            column=column,
+            error_code=error_code,
         )
 
         if args.json:
             print_json(payload)
         else:
-            print(f"BRAT Error at line {payload['errors'][0]['line']}: {payload['errors'][0]['message']}")
+            print_brat_error(
+                message=message,
+                line=line,
+                column=column,
+                error_code=error_code,
+            )
 
         sys.exit(1)
 
     except Exception as error:
-        payload = error_payload(str(error))
+        message = str(error)
+
+        payload = error_payload(
+            message=message,
+            line=1,
+            column=1,
+            error_code="BRUT_COMPILER_001",
+        )
 
         if args.json:
             print_json(payload)
         else:
-            print(f"Compiler Error: {error}")
+            print_compiler_error(message)
 
         sys.exit(1)
 

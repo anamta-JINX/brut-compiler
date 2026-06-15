@@ -2,12 +2,16 @@
   "name": "brut-compiler",
   "displayName": "brut compiler",
   "description": "Run, check, and edit BRAT .brt files using the BRUT compiler system.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "anamta-gohar",
   "author": {
     "name": "Anamta Gohar"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anamta-JINX/brut-compiler.git"
+  },
   "icon": "logo/brut.png",
   "engines": {
     "vscode": "^1.90.0"

@@ -51,11 +51,12 @@ class TokenType(str, Enum):
     ELSE = "ELSE"
     WHILE = "WHILE"
     REPEAT = "REPEAT"
+    TIMES = "TIMES"
+
     LOOP = "LOOP"
     FOREVER = "FOREVER"
     FROM = "FROM"
     TO = "TO"
-    TIMES = "TIMES"
     IN = "IN"
 
     SAY = "SAY"
@@ -84,11 +85,12 @@ KEYWORDS: dict[str, TokenType] = {
     "else": TokenType.ELSE,
     "while": TokenType.WHILE,
     "repeat": TokenType.REPEAT,
+    "times": TokenType.TIMES,
+
     "loop": TokenType.LOOP,
     "forever": TokenType.FOREVER,
     "from": TokenType.FROM,
     "to": TokenType.TO,
-    "times": TokenType.TIMES,
     "in": TokenType.IN,
 
     "say": TokenType.SAY,

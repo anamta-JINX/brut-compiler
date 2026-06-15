@@ -125,6 +125,19 @@ class WhileStatement(Statement):
 
 
 @dataclass
+class RepeatStatement(Statement):
+    count: Expression
+    body: list[Statement]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "type": "RepeatStatement",
+            "count": self.count.to_dict(),
+            "body": [statement.to_dict() for statement in self.body],
+        }
+
+
+@dataclass
 class ExpressionStatement(Statement):
     expression: Expression
 

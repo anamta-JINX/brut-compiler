@@ -1,0 +1,5 @@
+show("Repeat test");
+
+repeat 3 times {
+    show("BRAT repeat is working");
+};
