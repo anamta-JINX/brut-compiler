@@ -1,0 +1,9 @@
+# BRUT Compiler Requirements
+# Python 3.10 or higher is required.
+#
+# The compiler currently uses only Python standard library modules:
+# argparse, json, subprocess, sys, pathlib, dataclasses, enum, typing
+#
+# No external Python packages are required for the core compiler.
+
+python>=3.10
