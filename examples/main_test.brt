@@ -1,0 +1,11 @@
+show("BRAT main CLI is working");
+
+let x = 5 + 2;
+show(x);
+
+mut running = aura.true;
+
+while running {
+    show("loop working");
+    running = aura.false;
+};

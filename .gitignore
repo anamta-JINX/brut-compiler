@@ -1,0 +1,68 @@
+# Python cache
+
+**pycache**/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+
+.venv/
+venv/
+env/
+
+# Python test/cache files
+
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Generated BRUT/BRAT output files
+
+generated/*
+!generated/.gitkeep
+*.generated.py
+*_generated.py
+
+# VS Code extension dependencies
+
+brat-vscode-extension/node_modules/
+
+# VS Code extension compiled output
+
+brat-vscode-extension/out/
+
+# Temporary bundled compiler used while packaging VSIX
+
+brat-vscode-extension/brut-runtime/
+
+# Packaged VS Code extension files
+
+*.vsix
+
+# Accidental nested extension folder
+
+brat-vscode-extension/brat-vscode-extension/
+
+# Logs
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# VS Code local settings
+
+.vscode/settings.json
+.vscode/launch.json
+
+# Environment files
+
+.env
+.env.local

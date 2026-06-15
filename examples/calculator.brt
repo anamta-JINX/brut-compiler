@@ -1,0 +1,142 @@
+show("========================================");
+show("          BRAT SMART CALCULATOR          ");
+show("========================================");
+show("Not just a calculator.");
+show("This is BRAT: English-like, clean, readable.");
+show("Powered by aura.true logic and friendly syntax.");
+show("========================================");
+
+mut running = aura.true;
+
+while running {
+
+    show("");
+    show("Choose what you want to do:");
+    show("----------------------------------------");
+    show("1 -> Add numbers");
+    show("2 -> Subtract numbers");
+    show("3 -> Multiply numbers");
+    show("4 -> Divide numbers");
+    show("5 -> Find remainder");
+    show("6 -> Power calculation");
+    show("7 -> BRAT vibe check");
+    show("0 -> Exit");
+    show("----------------------------------------");
+
+    ask("Enter your choice") -> choice;
+
+    if choice == 0 {
+        show("");
+        show("Calculator closed.");
+        show("BRAT says: clean code, clean exit.");
+        running = aura.false;
+    }
+    else {
+        if choice == 1 {
+            show("");
+            show("Addition mode selected.");
+            ask("Enter first number") -> a;
+            ask("Enter second number") -> b;
+
+            show("");
+            show("Answer:");
+            show(a + b);
+        }
+        else {
+            if choice == 2 {
+                show("");
+                show("Subtraction mode selected.");
+                ask("Enter first number") -> a;
+                ask("Enter second number") -> b;
+
+                show("");
+                show("Answer:");
+                show(a - b);
+            }
+            else {
+                if choice == 3 {
+                    show("");
+                    show("Multiplication mode selected.");
+                    ask("Enter first number") -> a;
+                    ask("Enter second number") -> b;
+
+                    show("");
+                    show("Answer:");
+                    show(a * b);
+                }
+                else {
+                    if choice == 4 {
+                        show("");
+                        show("Division mode selected.");
+                        ask("Enter first number") -> a;
+                        ask("Enter second number") -> b;
+
+                        if b == 0 {
+                            show("");
+                            show("BRAT Error:");
+                            show("Division by zero is not allowed.");
+                            show("Try again with a valid second number.");
+                        }
+                        else {
+                            show("");
+                            show("Answer:");
+                            show(a / b);
+                        };
+                    }
+                    else {
+                        if choice == 5 {
+                            show("");
+                            show("Remainder mode selected.");
+                            ask("Enter first number") -> a;
+                            ask("Enter second number") -> b;
+
+                            if b == 0 {
+                                show("");
+                                show("BRAT Error:");
+                                show("Remainder with zero is not allowed.");
+                            }
+                            else {
+                                show("");
+                                show("Answer:");
+                                show(a % b);
+                            };
+                        }
+                        else {
+                            if choice == 6 {
+                                show("");
+                                show("Power mode selected.");
+                                ask("Enter base number") -> a;
+                                ask("Enter exponent number") -> b;
+
+                                show("");
+                                show("Answer:");
+                                show(a ** b);
+                            }
+                            else {
+                                if choice == 7 {
+                                    show("");
+                                    show("BRAT VIBE CHECK");
+                                    show("----------------------------------------");
+                                    show("Normal languages say true or false.");
+                                    show("BRAT says aura.true and aura.false.");
+                                    show("");
+                                    show("Normal languages feel robotic.");
+                                    show("BRAT reads like English.");
+                                    show("");
+                                    show("Normal calculators only calculate.");
+                                    show("This one shows BRAT personality.");
+                                    show("----------------------------------------");
+                                }
+                                else {
+                                    show("");
+                                    show("Invalid choice.");
+                                    show("Please select a number from 0 to 7.");
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+};

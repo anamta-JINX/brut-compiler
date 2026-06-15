@@ -1,0 +1,132 @@
+{
+  "name": "brut-compiler",
+  "displayName": "brut compiler",
+  "description": "Run, check, and edit BRAT .brt files using the BRUT compiler system.",
+  "version": "0.0.1",
+  "publisher": "anamta-gohar",
+  "author": {
+    "name": "Anamta Gohar"
+  },
+  "license": "MIT",
+  "icon": "logo/brut.png",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "brat",
+    "brut",
+    "compiler",
+    "programming language"
+  ],
+  "activationEvents": [
+    "onLanguage:brat",
+    "onCommand:brat.runFile",
+    "onCommand:brat.checkFile"
+  ],
+  "main": "./out/extension.js",
+  "files": [
+    "out/**",
+    "brut-runtime/**",
+    "logo/brut.png",
+    "logo/brat.png",
+    "syntaxes/**",
+    "snippets/**",
+    "language-configuration.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "brat",
+        "aliases": [
+          "BRAT",
+          "brat"
+        ],
+        "extensions": [
+          ".brt"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./logo/brat.png",
+          "dark": "./logo/brat.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "brat",
+        "scopeName": "source.brat",
+        "path": "./syntaxes/brat.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "brat.runFile",
+        "title": "Run",
+        "category": "BRUT",
+        "icon": "$(play)"
+      },
+      {
+        "command": "brat.checkFile",
+        "title": "Check BRAT File",
+        "category": "BRUT",
+        "icon": "$(check)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "brat.runFile",
+          "when": "resourceLangId == brat",
+          "group": "navigation@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "brat.runFile",
+          "when": "resourceLangId == brat"
+        },
+        {
+          "command": "brat.checkFile",
+          "when": "resourceLangId == brat"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "BRAT",
+      "properties": {
+        "brat.pythonPath": {
+          "type": "string",
+          "default": "python",
+          "description": "Python command used to run the bundled BRUT compiler."
+        },
+        "brat.compilerModule": {
+          "type": "string",
+          "default": "compiler.main",
+          "description": "Python module path for the bundled BRUT compiler."
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "brat",
+        "path": "./snippets/brat.code-snippets"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.9.2",
+    "typescript": "^5.4.0"
+  }
+}

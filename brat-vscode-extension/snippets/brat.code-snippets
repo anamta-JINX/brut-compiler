@@ -1,0 +1,92 @@
+{
+  "show output": {
+    "prefix": "show",
+    "body": [
+      "show(\"$1\");"
+    ],
+    "description": "Print output in BRAT"
+  },
+  "ask input": {
+    "prefix": "ask",
+    "body": [
+      "ask(\"${1:Enter value}\") -> ${2:name};"
+    ],
+    "description": "Take user input in BRAT"
+  },
+  "let variable": {
+    "prefix": "let",
+    "body": [
+      "let ${1:x} = ${2:10};"
+    ],
+    "description": "Declare a BRAT variable"
+  },
+  "mut variable": {
+    "prefix": "mut",
+    "body": [
+      "mut ${1:running} = aura.true;"
+    ],
+    "description": "Declare a mutable BRAT variable"
+  },
+  "if else block": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition} {",
+      "    $2",
+      "}",
+      "else {",
+      "    $3",
+      "};"
+    ],
+    "description": "BRAT if else block"
+  },
+  "while block": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condition} {",
+      "    $2",
+      "};"
+    ],
+    "description": "BRAT while loop"
+  },
+  "repeat times block": {
+    "prefix": "repeat",
+    "body": [
+      "repeat ${1:5} times {",
+      "    $2",
+      "};"
+    ],
+    "description": "BRAT repeat loop"
+  },
+  "function block": {
+    "prefix": "fun",
+    "body": [
+      "fun ${1:name}(${2:params}) {",
+      "    $3",
+      "};"
+    ],
+    "description": "BRAT function"
+  },
+  "calculator menu starter": {
+    "prefix": "bratcalc",
+    "body": [
+      "show(\"BRAT SMART CALCULATOR\");",
+      "mut running = aura.true;",
+      "",
+      "while running {",
+      "    show(\"1 -> Add numbers\");",
+      "    show(\"0 -> Exit\");",
+      "",
+      "    ask(\"Enter your choice\") -> choice;",
+      "",
+      "    if choice == 0 {",
+      "        show(\"Calculator closed.\");",
+      "        running = aura.false;",
+      "    }",
+      "    else {",
+      "        show(\"Invalid choice.\");",
+      "    };",
+      "};"
+    ],
+    "description": "Starter BRAT calculator menu"
+  }
+}

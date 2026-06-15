@@ -1,0 +1,108 @@
+{
+  "scopeName": "source.brat",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#aura"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#operators"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.brat",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.brat",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.brat",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.brat",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.brat",
+          "match": "\\b\\d+(\\.\\d+)?\\b"
+        }
+      ]
+    },
+    "aura": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.brat",
+          "match": "\\b(aura\\.true|aura\\.false)\\b"
+        },
+        {
+          "name": "constant.language.null.brat",
+          "match": "\\b(null|any)\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.brat",
+          "match": "\\b(if|else|while|repeat|loop|forever|from|to|times|in|return)\\b"
+        },
+        {
+          "name": "storage.type.brat",
+          "match": "\\b(let|mut|fun)\\b"
+        },
+        {
+          "name": "keyword.operator.logical.brat",
+          "match": "\\b(and|or|not)\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "support.function.brat",
+          "match": "\\b(show|say|ask)\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.brat",
+          "match": "->|==|!=|>=|<=|\\*\\*|[+\\-*/%=<>]"
+        }
+      ]
+    }
+  }
+}
